@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Ti amo tanto</title>
+<style>
+:root{--bg:#F4F1F6;color-scheme:light}
+@media (prefers-color-scheme: dark){:root{--bg:#0F0D1A;color-scheme:dark}}
+*,*::before,*::after{box-sizing:border-box}
+html,body{margin:0;min-height:100%;background:var(--bg)}
+#grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,220px),1fr));gap:0}
+#grid img{display:block;width:100%;aspect-ratio:3/4;object-fit:cover}
+#grid.one{grid-template-columns:1fr}
+#grid.one img{aspect-ratio:auto;height:100vh;height:100dvh}
+#love{position:fixed;inset:0;z-index:5;display:flex;align-items:center;justify-content:center;padding:1rem;text-align:center;pointer-events:none;color:#fff;font:800 clamp(2.6rem,13vw,8rem)/1 Georgia,'Times New Roman',serif;font-style:italic;letter-spacing:-.01em;text-shadow:0 2px 24px rgba(0,0,0,.55),0 1px 3px rgba(0,0,0,.6)}
+</style>
+</head>
+<body>
+<div id="grid"></div>
+<div id="love">ti amo tanto</div>
+<script>
+// Le foto vanno nella cartella "foto" e si chiamano 1.jpg, 2.jpg, 3.jpg ...
+// La pagina le carica in ordine finché ne trova.
+var grid=document.getElementById('grid'),EXT=['jpg','jpeg','png','webp'],MAX=60,count=0;
+function tryLoad(n,e){
+  if(n>MAX)return;
+  if(e>=EXT.length)return;
+  var src='foto/'+n+'.'+EXT[e],im=new Image();
+  im.onload=function(){count++;grid.className=count===1?'one':'';im.alt='';grid.appendChild(im);tryLoad(n+1,0);};
+  im.onerror=function(){tryLoad(n,e+1);};
+  im.src=src;
+}
+tryLoad(1,0);
+</script>
+</body>
+</html>
